@@ -1,0 +1,7 @@
+DEBUG=xxx
+SECRET_KEY=xxx
+DB_NAME=xxx
+DB_USER=xxx
+DB_PASSWORD=xxx
+DB_HOST=xxx
+DB_PORT=xxx
