@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Aggregations and Annotations</title>
+</head>
+<body>
+    <h1>Aggregated Data</h1>
+    <p>Total Products: {{ product_count }}</p>
+    <p>Average Product Price: {{ average_price }}</p>
+    <p>Total Customers: {{ customer_count }}</p>
+    <p>Total Orders: {{ order_count }}</p>
+    <p>Average Order Value: {{ average_order_value }}</p>
+
+    <h1>Annotated Data</h1>
+    <h2>Products</h2>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - Orders: {{ product.order_count }}, Total Sales: {{ product.total_sales }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Customers</h2>
+    <ul>
+        {% for customer in customers %}
+            <li>{{ customer.name }} - Orders: {{ customer.order_count }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
