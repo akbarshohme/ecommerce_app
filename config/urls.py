@@ -17,7 +17,7 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-
+from .views import product_aggregation, customer_aggregation, order_aggregation, product_annotation, customer_annotation
 from config import settings
 
 urlpatterns = [
@@ -25,5 +25,10 @@ urlpatterns = [
                   path('app/', include('app.urls')),
                   path('customer/', include('customer.urls')),
                   path('social-auth/',
+                  path('product-aggregation/', product_aggregation, name='product-aggregation'),
+                  path('customer-aggregation/', customer_aggregation, name='customer-aggregation'),
+                  path('order-aggregation/', order_aggregation, name='order-aggregation'),
+                  path('product-annotation/', product_annotation, name='product-annotation'),
+                  path('customer-annotation/', customer_annotation, name='customer-annotation'),
                        include('social_django.urls', namespace='social')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
