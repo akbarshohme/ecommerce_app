@@ -1,10 +1,13 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.db.models import Avg, Count
+from .models import Product
 from app.forms import ProductForm, ProductModelForm
 from app.models import Product
 from django.views import View
 from django.views.generic import TemplateView
+from .models import Customer
+from django.db.models import Sum
 
 
 # Create your views here.
@@ -171,3 +174,38 @@ class EditProductTemplateView(TemplateView):
         if form.is_valid():
             form.save()
             return redirect('index')
+
+
+def product_aggregation(request):
+    product_count = Product.objects.aggregate(total=Count('id'))
+    average_price = Product.objects.aggregate(average_price=Avg('price'))
+    context = {
+        'product_count': product_count['total'],
+        'average_price': average_price['average_price'],
+    }
+    return render(request, 'agg_data.html', context)
+
+
+def order_aggregation(request):
+    order_count = Order.objects.aggregate(total=Count('id'))
+    average_order_value = Order.objects.aggregate(average_value=Avg('total_price'))
+    context = {
+        'order_count': order_count['total'],
+        'average_order_value': average_order_value['average_value'],
+    }
+    return render(request, 'agg_data.html', context)
+
+def product_annotation(request):
+    products = Product.objects.annotate(order_count=Count('order'), total_sales=Sum('order__total_price'))
+    context = {
+        'products': products,
+    }
+    return render(request, 'agg_data.html', context)
+
+def customer_annotation(request):
+    customers = Customer.objects.annotate(order_count=Count('order'))
+    context = {
+        'customers': customers,
+    }
+    return render(request, 'agg_data.html', context)
+
